@@ -2,33 +2,31 @@
 using MongoDB.Driver;
 using ProductCatalogService.Data;
 using ProductCatalogService.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace ProductCatalogService.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IMongoCollection<Product> _products;
+        private readonly ProductCatalogContext _context;
 
         public ProductsController(ProductCatalogContext context)
         {
-            _products = context.Products;
+            _context = context;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            var products = await _products.Find(product => true).ToListAsync();
+            var products = await _context.Products.Find(p => true).ToListAsync();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(string id)
         {
-            var product = await _products.Find<Product>(p => p.Id == id).FirstOrDefaultAsync();
+            var product = await _context.Products.Find(p => p.Id == id).FirstOrDefaultAsync();
             if (product == null)
             {
                 return NotFound();
@@ -42,14 +40,14 @@ namespace ProductCatalogService.Controllers
             // Ensure the Id is not set by the client
             product.Id = null;
 
-            await _products.InsertOneAsync(product);
+            await _context.Products.InsertOneAsync(product);
             return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateProduct(string id, Product updatedProduct)
         {
-            var result = await _products.ReplaceOneAsync(p => p.Id == id, updatedProduct);
+            var result = await _context.Products.ReplaceOneAsync(p => p.Id == id, updatedProduct);
             if (result.MatchedCount == 0)
             {
                 return NotFound();
@@ -60,7 +58,7 @@ namespace ProductCatalogService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(string id)
         {
-            var result = await _products.DeleteOneAsync(p => p.Id == id);
+            var result = await _context.Products.DeleteOneAsync(p => p.Id == id);
             if (result.DeletedCount == 0)
             {
                 return NotFound();
