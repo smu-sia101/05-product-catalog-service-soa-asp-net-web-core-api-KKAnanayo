@@ -38,7 +38,6 @@ namespace ProductCatalogService.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct(Product product)
         {
-            // Ensure the Id is not set by the client
             product.Id = null;
 
             await _context.Products.InsertOneAsync(product);
