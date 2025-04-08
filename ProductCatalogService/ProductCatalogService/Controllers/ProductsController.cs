@@ -23,7 +23,7 @@ namespace ProductCatalogService.Controllers
             var products = await _context.Products.Find(p => true).ToListAsync();
             return Ok(products);
         }
-        z`
+    
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(string id)
         {
