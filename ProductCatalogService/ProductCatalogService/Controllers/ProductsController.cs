@@ -3,7 +3,7 @@ using MongoDB.Driver;
 using ProductCatalogService.Data;
 using ProductCatalogService.Models;
 
-//Pogi si kevin
+
 namespace ProductCatalogService.Controllers
 {
     [Route("api/[controller]")]
