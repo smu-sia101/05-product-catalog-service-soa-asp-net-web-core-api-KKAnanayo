@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const ProductDetails = () => {
-    const { id } = useParams(); // Get the product ID from the URL
+    const { id } = useParams(); 
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ const ProductDetails = () => {
         };
 
         fetchProductDetails();
-    }, [id]); // Include 'id' in the dependency array
+    }, [id]);
 
     if (!product) {
         return <div>Loading...</div>;
