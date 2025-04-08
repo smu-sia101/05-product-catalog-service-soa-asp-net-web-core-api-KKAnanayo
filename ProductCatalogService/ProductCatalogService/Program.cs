@@ -6,7 +6,7 @@ using ProductCatalogService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
@@ -19,10 +19,10 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Register ProductCatalogContext
+
 builder.Services.AddSingleton<ProductCatalogContext>();
 
-// Add Swagger services
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProductCatalog API", Version = "v1" });
@@ -30,14 +30,11 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    // Enable middleware to serve generated Swagger as a JSON endpoint.
     app.UseSwagger();
-    // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-    // specifying the Swagger JSON endpoint.
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProductCatalog API v1"));
 }
 
